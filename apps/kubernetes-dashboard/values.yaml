@@ -1,0 +1,11 @@
+# Kubernetes Dashboard Helm values
+# Full reference: https://github.com/kubernetes/dashboard/blob/master/charts/kubernetes-dashboard/values.yaml
+
+app:
+  ingress:
+    enabled: false  # Access via port-forward
+
+kong:
+  proxy:
+    http:
+      enabled: true

@@ -143,6 +143,49 @@ make app APP=my-app
 
 See `apps/example-app/` for a working reference using `bitnami/nginx`.
 
+## Included Apps
+
+### podinfo
+
+A lightweight app that displays pod information (name, namespace, version) in a browser. Good for verifying the full install → port-forward → browser flow.
+
+```bash
+# Install
+make app APP=podinfo
+
+# Access (run in a dedicated terminal, leave it open)
+kubectl port-forward -n apps svc/podinfo 9898:9898
+
+# Open in browser
+http://localhost:9898
+```
+
+### Kubernetes Dashboard
+
+A full web UI for viewing and managing all resources in your cluster — pods, deployments, services, logs, and resource usage across all namespaces.
+
+```bash
+# Install
+make app APP=kubernetes-dashboard
+```
+
+**Access (3 steps):**
+
+```bash
+# Step 1 — port-forward in a dedicated terminal (leave it open)
+kubectl port-forward -n kubernetes-dashboard svc/kubernetes-dashboard-kong-proxy 8443:443
+
+# Step 2 — get your login token (run in a separate terminal)
+kubectl -n kubernetes-dashboard create token admin-user
+
+# Step 3 — open in browser
+https://localhost:8443
+```
+
+> Safari will warn about a self-signed certificate — click **Show Details → Visit Website** to proceed. Paste the token from Step 2 to log in.
+
+---
+
 ## Repository Structure
 
 ```
@@ -159,9 +202,9 @@ ag_kube_frame/
 │   ├── values.yaml                 # kube-prometheus-stack Helm overrides
 │   └── install.sh                  # Installs Grafana + Prometheus
 └── apps/
-    └── example-app/                # Reference app (bitnami/nginx)
-        ├── values.yaml
-        └── install.sh
+    ├── example-app/                # Reference app (bitnami/nginx)
+    ├── podinfo/                    # Pod info viewer
+    └── kubernetes-dashboard/       # Kubernetes web UI
 ```
 
 ## Namespaces
@@ -169,7 +212,8 @@ ag_kube_frame/
 | Namespace | Purpose |
 |---|---|
 | `monitoring` | Grafana, Prometheus, and related components |
-| `apps` | User-deployed applications |
+| `apps` | User-deployed applications (podinfo, example-app, etc.) |
+| `kubernetes-dashboard` | Kubernetes Dashboard web UI |
 
 ## Monitoring Details
 

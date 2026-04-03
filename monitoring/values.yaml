@@ -1,0 +1,33 @@
+# kube-prometheus-stack Helm values
+# Full reference: https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+#
+# NOTE: adminPassword is set via --set in monitoring/install.sh using $GRAFANA_PASSWORD env var.
+# Do not put secrets directly in this file.
+
+grafana:
+  enabled: true
+  adminPassword: admin  # Overridden at install time via --set if GRAFANA_PASSWORD is set
+  persistence:
+    enabled: false
+  ingress:
+    enabled: false  # Access via port-forward: make port-forward-grafana
+
+prometheus:
+  prometheusSpec:
+    retention: 24h
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+
+alertmanager:
+  enabled: false  # Disable to reduce noise in local dev. Set to true to enable.
+
+# Reduce resource footprint for local dev
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true

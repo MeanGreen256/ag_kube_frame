@@ -1,0 +1,16 @@
+# podinfo Helm values
+# Full reference: https://github.com/stefanprodan/podinfo/blob/master/charts/podinfo/values.yaml
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 9898
+
+resources:
+  requests:
+    memory: 32Mi
+    cpu: 10m
+  limits:
+    memory: 64Mi
+    cpu: 100m

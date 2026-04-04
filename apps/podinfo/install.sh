@@ -17,7 +17,12 @@ helm upgrade --install "${APP_NAME}" \
   --wait \
   --timeout 5m
 
+echo "==> Applying ServiceMonitor for Prometheus scraping..."
+kubectl apply -f "${SCRIPT_DIR}/service-monitor.yaml"
+
 echo ""
 echo "${APP_NAME} installed in namespace 'apps'."
 echo "Access it: kubectl port-forward -n apps svc/podinfo 9898:9898"
 echo "Then open: http://localhost:9898"
+echo ""
+echo "Metrics are scraped by Prometheus. Check targets at http://localhost:9090/targets"

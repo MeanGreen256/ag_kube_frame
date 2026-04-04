@@ -15,6 +15,9 @@ grafana:
 prometheus:
   prometheusSpec:
     retention: 24h
+    # Watch ServiceMonitors in all namespaces (e.g. apps namespace)
+    serviceMonitorNamespaceSelector: {}
+    serviceMonitorSelector: {}
     resources:
       requests:
         memory: 256Mi
